@@ -3,8 +3,10 @@
 
 #include "types.h"
 
-#define INIT_WINDOW_WIDTH 800
-#define INIT_WINDOW_HEIGHT 1200
+#define INIT_WINDOW_WIDTH 600
+#define INIT_WINDOW_HEIGHT 900
+
+// the purpose of this is to "guard" against linker errors as well as save typing on declarations
 
 // basically put a ',' character before the '=' in value initializer, if present
 #define STORAGE_INT(decl, ...) decl __VA_ARGS__
@@ -13,7 +15,7 @@
 #ifdef GLOBALS_C
     #define STORAGE(decl, ...) STORAGE_INT(decl, __VA_ARGS__)
 #else
-    #define STORAGE(decl, ...) extern STORAGE_INT(decl,)
+    #define STORAGE(decl, ...) extern STORAGE_INT(decl)
 #endif
 
 STORAGE(struct {
@@ -23,6 +25,7 @@ STORAGE(struct {
     .width = INIT_WINDOW_WIDTH,
     .height = INIT_WINDOW_HEIGHT
 });
+
 #undef STORAGE
 #undef STORAGE_INT
 

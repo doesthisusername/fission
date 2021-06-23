@@ -10,7 +10,7 @@ static void glfw_error(s32 err, const char* desc) {
     fprintf(stderr, "glfw error %d: %s\n", err, desc);
 }
 
-bool init(struct nk_context** ctx) {
+bool init_nk(struct nk_context** ctx) {
     // make window
     glfwSetErrorCallback(glfw_error);
     if(!glfwInit()) {
@@ -39,7 +39,25 @@ bool init(struct nk_context** ctx) {
     return true;
 }
 
-void shutdown() {
+void shutdown_nk() {
     nk_glfw3_shutdown();
     glfwTerminate();
+}
+
+bool still_running() {
+    return !glfwWindowShouldClose(window);
+}
+
+void start_frame() {
+    glfwPollEvents();
+    nk_glfw3_new_frame();
+}
+
+void end_frame() {
+    glfwGetWindowSize(window, &win_info.width, &win_info.height);
+    glViewport(0, 0, win_info.width, win_info.height);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    nk_glfw3_render(NK_ANTI_ALIASING_ON);
+    glfwSwapBuffers(window);
 }

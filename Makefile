@@ -1,6 +1,8 @@
 SRC := source
 EXT := external
+DAT := data
 BLD := build
+BIN := bin
 
 ifeq ($(OS),Windows_NT)
 else
@@ -9,24 +11,32 @@ else
 	ifeq ($(UNAME_S),Darwin)
 		LIBS := $(GLFW3) -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -lm -lGLEW -L/usr/local/lib
 	else
-		LIBS := $(GLFW3) -lGL -lm -lGLU -lGLEW
+		LIBS := $(GLFW3) -lGL -lm -lGLU -lGLEW -ldl -lpthread
 	endif
 endif
 
 CC := cc -flto
-CFLAGS := -I$(SRC) -I$(EXT) -I. -Wall -O3
+CFLAGS := -I$(SRC) -I$(EXT) -I$(BLD) -I. -Wall -O0 -g
 LDFLAGS := -L$(BLD) \
 	-llivesplit_core $(LIBS)
 
 .PHONY: clean all
 
-all: fission
+all: $(BIN)/fission
 
 clean:
-	rm -rfv $(BLD) fission
+	rm -rfv $(BLD) $(BIN)
+
+$(BIN):
+	@mkdir -p $(BIN)
 
 $(BLD):
 	@mkdir -p $(BLD)
+
+# yeah, this runs too often
+$(BIN)/$(DAT): $(BIN)
+	@echo "CP      "$(BIN)/$(DAT)
+	@cp -r $(DAT) $(BIN)
 
 $(BLD)/%.o: $(SRC)/%.c $(BLD)/livesplit_core.h $(BLD)
 	@echo "CC      "$<
@@ -34,7 +44,7 @@ $(BLD)/%.o: $(SRC)/%.c $(BLD)/livesplit_core.h $(BLD)
 	@$(CC) -c -o $@ $< $(CFLAGS)
 
 FISSION_O := $(patsubst $(SRC)/%.c,$(BLD)/$(notdir %.o),$(shell find $(SRC) -type f -name *.c))
-fission: $(FISSION_O) $(BLD)/liblivesplit_core.a $(BLD)
+$(BIN)/fission: $(FISSION_O) $(BLD)/liblivesplit_core.a $(BLD) $(BIN) $(BIN)/$(DAT)
 	@echo "LD      "$@
 	@$(CC) -o $@ $(FISSION_O) $(LDFLAGS)
 
@@ -47,5 +57,5 @@ $(BLD)/liblivesplit_core.a: $(BLD)
 $(BLD)/livesplit_core.h: $(BLD)/liblivesplit_core.a $(BLD)
 	@cd $(EXT)/livesplit-core/capi/bind_gen; \
 	cargo run; \
-	cp ../bindings/livesplit_core.h ../../../../$(BLD)/liveplit_core.h; \
+	cp ../bindings/livesplit_core.h ../../../../$(BLD)/livesplit_core.h; \
 	cd -

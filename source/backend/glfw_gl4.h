@@ -21,13 +21,23 @@
 #define MAX_VERTEX_BUFFER (512 * 1024)
 #define MAX_ELEMENT_BUFFER (512 * 1024)
 
+#define nk_font_stash_begin nk_glfw3_font_stash_begin
+#define nk_font_stash_end nk_glfw3_font_stash_end
+
 extern GLFWwindow* window;
 
 // ctx: will hold bound nk_context on success
 // return: true (i.e. nonzero) on success
-bool init(struct nk_context** ctx);
+bool init_nk(struct nk_context** ctx);
 
-// end nk and glfw
-void shutdown();
+// end nk and glfw (will abort because idk)
+void shutdown_nk();
+
+// return false if window closed
+bool still_running();
+
+void start_frame();
+
+void end_frame();
 
 #endif // FIS_GLFW_GL4_H
