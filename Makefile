@@ -41,12 +41,12 @@ $(BIN)/$(DAT): $(BIN)
 $(BLD)/%.o: $(SRC)/%.c $(BLD)/livesplit_core.h $(BLD)
 	@echo "CC      "$<
 	@mkdir -p $(@D)
-	@$(CC) -c -o $@ $< $(CFLAGS)
+	@$(CC) -g -c -o $@ $< $(CFLAGS)
 
 FISSION_O := $(patsubst $(SRC)/%.c,$(BLD)/$(notdir %.o),$(shell find $(SRC) -type f -name *.c))
 $(BIN)/fission: $(FISSION_O) $(BLD)/liblivesplit_core.a $(BLD) $(BIN) $(BIN)/$(DAT)
 	@echo "LD      "$@
-	@$(CC) -o $@ $(FISSION_O) $(LDFLAGS)
+	@$(CC) -g -o $@ $(FISSION_O) $(LDFLAGS)
 
 $(BLD)/liblivesplit_core.a: $(BLD)
 	@cd $(EXT)/livesplit-core; \

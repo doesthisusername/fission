@@ -17,5 +17,6 @@
 void draw(struct nk_context* ctx, LayoutStateRef state, size_t index);
 
 void draw_timer(struct nk_context* ctx, TimerComponentStateRef state);
+void draw_title(struct nk_context* ctx, TitleComponentStateRef state);
 
 #endif // FIS_COMPONENT_H

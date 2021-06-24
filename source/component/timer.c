@@ -1,22 +1,8 @@
 #include "../component.h"
-#include <stdlib.h>
-#include <stdio.h>
+#include "../text_buf.h"
 
-struct text_buf {
-    char* text;
-    size_t max;
-};
-
-static void buf_set(struct text_buf* buf, const char* text) {
-    const size_t text_len = strlen(text);
-
-    // >= because of \0 not being counted in strlen
-    if(text_len >= buf->max) {
-        buf->text = realloc(buf->text, (text_len + 8) & ~7);
-    }
-
-    memcpy(buf->text, text, text_len + 1);
-}
+#define TIMER_ALIGN NK_TEXT_RIGHT
+#define TIMER_HEIGHT 60.0f
 
 void draw_timer(struct nk_context* ctx, TimerComponentStateRef state) {
     static struct text_buf secs = {.text = NULL, .max = 0};
@@ -25,7 +11,10 @@ void draw_timer(struct nk_context* ctx, TimerComponentStateRef state) {
     buf_set(&secs, TimerComponentState_time(state));
     buf_set(&frac, TimerComponentState_fraction(state));
 
-    nk_layout_row_begin(ctx, NK_LAYOUT_DYNAMIC_ROW, 120.0f, 1);
-    nk_labelf(ctx, NK_TEXT_ALIGN_RIGHT, "%s%s", secs.text, frac.text);
+    nk_layout_row_begin(ctx, NK_DYNAMIC, TIMER_HEIGHT, 1);
+    {
+        nk_layout_row_push(ctx, 1.0f);
+        nk_labelf(ctx, TIMER_ALIGN, "%s%s", secs.text, frac.text);
+    }
     nk_layout_row_end(ctx);
 }
