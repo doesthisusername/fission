@@ -1,7 +1,10 @@
 #define NK_IMPLEMENTATION
 #define NK_GLFW_GL4_IMPLEMENTATION
-#include "glfw_gl4.h"
+#include "../backend.h"
+#undef NK_IMPLEMENTATION
+#undef NK_GLFW_GL4_IMPLEMENTATION
 
+#include "../font.h"
 #include <stdio.h>
 
 GLFWwindow* window;
@@ -35,7 +38,19 @@ bool init_nk(struct nk_context** ctx) {
         return false;
     }
 
+    // make ctx
     *ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);
+
+    // init win_info more
+    s32 width;
+    s32 height;
+    glfwGetFramebufferSize(window, &width, &height);
+    win_info.scale.x = (float)width;
+    win_info.scale.y = (float)height;
+    reload_fonts = true;
+
+    install_callbacks();
+
     return true;
 }
 
@@ -46,6 +61,21 @@ void shutdown_nk() {
 
 bool still_running() {
     return !glfwWindowShouldClose(window);
+}
+
+static void resize_callback(GLFWwindow* cb_window, s32 width, s32 height) {
+    win_info.width = width;
+    win_info.height = height;
+
+    glfwGetFramebufferSize(cb_window, &width, &height);
+    win_info.scale.x = (float)width;
+    win_info.scale.y = (float)height;
+
+    reload_fonts = true;
+}
+
+void install_callbacks() {
+    glfwSetWindowSizeCallback(window, resize_callback);
 }
 
 void start_frame() {

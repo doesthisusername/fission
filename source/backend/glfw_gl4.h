@@ -11,12 +11,14 @@
 #define NK_INCLUDE_FONT_BAKING
 #define NK_INCLUDE_DEFAULT_FONT
 #define NK_KEYSTATE_BASED_INPUT
+#define NK_GLFW_MAX_TEXTURES 2048
 #include <nk/nuklear.h>
 #include <nk/nuklear_glfw_gl4.h>
+#undef NK_IMPLEMENTATION
+#undef NK_GLFW_GL4_IMPLEMENTATION
 
 #include <stdbool.h>
 #include "../types.h"
-#include "globals.h"
 
 #define MAX_VERTEX_BUFFER (512 * 1024)
 #define MAX_ELEMENT_BUFFER (512 * 1024)
@@ -30,11 +32,14 @@ extern GLFWwindow* window;
 // return: true (i.e. nonzero) on success
 bool init_nk(struct nk_context** ctx);
 
-// end nk and glfw (will abort because idk)
+// end nk and glfw
 void shutdown_nk();
 
 // return false if window closed
 bool still_running();
+
+// todo: make static
+void install_callbacks();
 
 void start_frame();
 

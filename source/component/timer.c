@@ -1,5 +1,6 @@
 #include "../component.h"
 #include "../text_buf.h"
+#include "../font.h"
 
 #define TIMER_ALIGN NK_TEXT_RIGHT
 #define TIMER_HEIGHT 60.0f
@@ -11,6 +12,7 @@ void draw_timer(struct nk_context* ctx, TimerComponentStateRef state) {
     buf_set(&secs, TimerComponentState_time(state));
     buf_set(&frac, TimerComponentState_fraction(state));
 
+    set_font(ctx, FONT_L);
     nk_layout_row_begin(ctx, NK_DYNAMIC, TIMER_HEIGHT, 1);
     {
         nk_layout_row_push(ctx, 1.0f);

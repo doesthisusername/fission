@@ -1,5 +1,6 @@
 #include "../component.h"
 #include "../text_buf.h"
+#include "../font.h"
 #include "../types.h"
 
 #define ATTEMPT_COUNTER_ALIGN NK_TEXT_RIGHT
@@ -58,6 +59,8 @@ void draw_title(struct nk_context* ctx, TitleComponentStateRef state) {
     }
 
     buf_set(&lines[0], TitleComponentState_line1(state));
+
+    set_font(ctx, FONT_S);
 
     //nk_layout_row_dynamic(ctx, TITLE_HEIGHT, cols);
     nk_layout_row_begin(ctx, NK_DYNAMIC, TITLE_HEIGHT, cols);
