@@ -31,12 +31,8 @@ bool init_nk(struct nk_context** ctx) {
     glfwMakeContextCurrent(window);
     
     // make gl
+    gladLoaderLoadGL();
     glViewport(0, 0, win_info.width, win_info.height);
-    glewExperimental = GL_TRUE;
-    if(glewInit() != GLEW_OK) {
-        fprintf(stderr, "glew failed to init\n");
-        return false;
-    }
 
     // make ctx
     *ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS, MAX_VERTEX_BUFFER, MAX_ELEMENT_BUFFER);

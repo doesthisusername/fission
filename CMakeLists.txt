@@ -17,6 +17,8 @@ add_executable(fission
     "source/component/title.c"
 
     "source/backend/glfw_gl4.c"
+
+    "external/glad/gl.c"
 )
 
 # livesplit-core
@@ -67,12 +69,11 @@ target_include_directories(fission PRIVATE
 
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(Threads REQUIRED)
 target_link_libraries(fission
     debug           "${CMAKE_SOURCE_DIR}/external/livesplit-core/target/debug/liblivesplit_core.a"
     optimized       "${CMAKE_SOURCE_DIR}/external/livesplit-core/target/release/liblivesplit_core.a"
-    glfw OpenGL::GL GLEW::GLEW Threads::Threads
+    glfw OpenGL::GL Threads::Threads
 )
 
 if(UNIX)

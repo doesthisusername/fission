@@ -1,7 +1,6 @@
 #ifndef FIS_COMPONENT_H
 #define FIS_COMPONENT_H
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <glad/gl.h>
 
 #define NK_INCLUDE_FIXED_TYPES
 #define NK_INCLUDE_STANDARD_IO
