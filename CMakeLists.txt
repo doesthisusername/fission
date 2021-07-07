@@ -30,10 +30,16 @@ ExternalProject_Add(
     BUILD_COMMAND   cargo build -p staticlib
     COMMAND         cargo build --release -p staticlib
     SOURCE_DIR      "${CMAKE_SOURCE_DIR}/external/livesplit-core"
-    BINARY_DIR      "${CMAKE_SOURCE_DIR}/external/livesplit-core"
+    BUILD_IN_SOURCE ON
     INSTALL_COMMAND ""
     LOG_BUILD       ON
+    BUILD_BYPRODUCTS
+        "${CMAKE_SOURCE_DIR}/external/livesplit-core/target/debug/liblivesplit_core.a"
+        "${CMAKE_SOURCE_DIR}/external/livesplit-core/target/release/liblivesplit_core.a"
 )
+
+set_property(TARGET livesplit-core
+    PROPERTY IMPORTED_LOCATION)
 
 # livesplit_core.h
 ExternalProject_Add(
@@ -43,13 +49,14 @@ ExternalProject_Add(
     BUILD_COMMAND   cargo run
     COMMAND         cargo run --release
     SOURCE_DIR      "${CMAKE_SOURCE_DIR}/external/livesplit-core/capi/bind_gen"
-    BINARY_DIR      "${CMAKE_SOURCE_DIR}/external/livesplit-core/capi/bind_gen"
+    BUILD_IN_SOURCE ON
     INSTALL_COMMAND ""
     LOG_BUILD       ON
+    DEPENDS         livesplit-core
+    BUILD_BYPRODUCTS "${CMAKE_SOURCE_DIR}/external/livesplit-core/capi/bindings/livesplit_core.h"
 )
 
 # dependencies
-add_dependencies(livesplit_core-h livesplit-core)
 add_dependencies(fission livesplit_core-h livesplit-core)
 
 # fission config and link
@@ -60,13 +67,12 @@ target_include_directories(fission PRIVATE
 
 find_package(glfw3 REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(GLUT REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(Threads REQUIRED)
 target_link_libraries(fission
     debug           "${CMAKE_SOURCE_DIR}/external/livesplit-core/target/debug/liblivesplit_core.a"
     optimized       "${CMAKE_SOURCE_DIR}/external/livesplit-core/target/release/liblivesplit_core.a"
-    glfw OpenGL::GL GLUT::GLUT GLEW::GLEW Threads::Threads
+    glfw OpenGL::GL GLEW::GLEW Threads::Threads
 )
 
 if(UNIX)
