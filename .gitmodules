@@ -1,3 +1,6 @@
 [submodule "external/livesplit-core"]
 	path = external/livesplit-core
 	url = https://github.com/LiveSplit/livesplit-core
+[submodule "external/glfw"]
+	path = external/glfw
+	url = https://github.com/glfw/glfw

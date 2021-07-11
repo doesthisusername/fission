@@ -14,11 +14,24 @@ static Layout layout = NULL;
 static HotkeySystem hk_sys;
 static HotkeyConfig hk_cfg;
 
+#ifdef _WIN32
+    #define SEP '\\'
+#else
+    #define SEP '/'
+#endif
+
 s32 main(s32 argc, char** argv) {
-    // TODO: check if this works on windows
-    // cd to dir with executable in it
-    const size_t path_len = strrchr(argv[0], '/') - argv[0];
+    // if SEP is '/' on windows, it won't find it, 
+    // and the length calculation is likely to overflow,
+    // causing the malloc to fail.
+    // NOTE: '/' works for linux, even on ntfs filesystems.
+    const size_t path_len = strrchr(argv[0], SEP) - argv[0];
     char* target_dir = malloc(path_len + 1 /* \0 */);
+    if(target_dir == NULL) {
+        fprintf(stderr, "failed to allocate memory to change dir\n");
+        return 1;
+    }
+
     memcpy(target_dir, argv[0], path_len);
     target_dir[path_len] = '\0';
 
@@ -39,11 +52,21 @@ s32 main(s32 argc, char** argv) {
     
     // init livesplit-core (splits and timer)
     shared_timer = load_splits("data/lss/default.lss");
+    if(shared_timer == NULL) {
+        fprintf(stderr, "failed to load splits\n");
+        return 1;
+    }
+
+    // (hotkeys)
     hk_cfg = HotkeyConfig_new();
     hk_sys = HotkeySystem_with_config(SharedTimer_share(shared_timer), hk_cfg);
 
     // (layout)
     layout = load_layout("data/lsl/default.lsl", true);
+    if(layout == NULL) {
+        fprintf(stderr, "failed to load layout\n");
+        return 1;
+    }
     LayoutState lstate = LayoutState_new();
 
     // main loop
@@ -71,11 +94,17 @@ s32 main(s32 argc, char** argv) {
     }
 
     // save
-    save_layout(layout, "data/lsl/default.lsl");
+    if(!save_layout(layout, "data/lsl/default.lsl")) {
+        fprintf(stderr, "ERR: unable to save layout!\n");
+        return 2;
+    }
 
     TimerReadLock rlock = SharedTimer_read(shared_timer);
     TimerRef save_timer = TimerReadLock_timer(rlock);
-    save_splits(save_timer, "data/lss/default.lss");
+    if(!save_splits(save_timer, "data/lss/default.lss")) {
+        fprintf(stderr, "ERR: unable to save splits!\n");
+        return 2;
+    }
     TimerReadLock_drop(rlock);
 
     // free

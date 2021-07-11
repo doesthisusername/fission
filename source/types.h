@@ -1,12 +1,7 @@
 #ifndef FIS_TYPES_H
 #define FIS_TYPES_H
 
-#ifdef _WIN32
-    #error please wait for win32 support
-#elif defined(__linux__)
-#ifndef _GNU_SOURCE
-    #define _GNU_SOURCE 1
-#endif
+#if defined(_WIN32) || defined(__linux__)
 #include <stdint.h>
 
 typedef uint8_t u8;

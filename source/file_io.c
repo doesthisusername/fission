@@ -5,18 +5,35 @@
 #include <livesplit_core.h>
 #include "file_io.h"
 
+// not pretty, but reduces #ifdefs below
+#ifndef _WIN32
+    #define FD_T int
+    #define INVALID_FD -1
+
+    #define OPEN_RO(path) open(path, O_RDONLY)
+    #define CLOSE_FD(fd) close(fd)
+#else
+    #define WIN32_LEAN_AND_MEAN
+    #include <windows.h>
+
+    #define FD_T HANDLE
+    #define INVALID_FD INVALID_HANDLE_VALUE
+
+    #define OPEN_RO(path) CreateFile(path, GENERIC_READ, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL)
+    #define CLOSE_FD(fd) CloseHandle(fd)
+#endif
+
 // if open succeeds, save return value of load(fd) to *dst
 // if it fails, do not touch *dst, and return false
 static bool load_file(const char* path, void** dst, void*(*load)(int64_t handle)) {
-    const int fd = open(path, O_RDONLY);
-
-    if(fd < 0) {
-        fprintf(stderr, "failed to open %s\n", path);
+    const FD_T fd = OPEN_RO(path);
+    if(fd == INVALID_FD) {
+        fprintf(stderr, "failed to open %s for reading\n", path);
         return false;
     }
     else {
-        *dst = load(fd);
-        close(fd);
+        *dst = load((int64_t)fd);
+        CLOSE_FD(fd);
         return true;
     }
 }
@@ -33,7 +50,7 @@ static bool save_file(const char* path, const char* data) {
     const size_t nwritten = fwrite(data, data_len, 1, f);
     fclose(f);
 
-    return nwritten == data_len;
+    return nwritten == 1;
 }
 
 // remove need for (void**) and function pointer casts for load_file...
@@ -61,15 +78,14 @@ bool save_layout(const Layout layout, const char* path) {
 }
 
 SharedTimer load_splits(const char* path) {
-    const int fd = open(path, O_RDONLY);
-
-    if(fd < 0) {
-        fprintf(stderr, "failed to open %s\n", path);
+    const FD_T fd = OPEN_RO(path);
+    if(fd == INVALID_FD) {
+        fprintf(stderr, "failed to open %s for reading\n", path);
         return NULL;
     }
 
-    ParseRunResult maybe_run = Run_parse_file_handle(fd, path, true);
-    close(fd);
+    ParseRunResult maybe_run = Run_parse_file_handle((int64_t)fd, path, true);
+    CLOSE_FD(fd);
 
     if(!ParseRunResult_parsed_successfully(maybe_run)) {
         fprintf(stderr, "failed to parse %s\n", path);

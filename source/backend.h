@@ -5,10 +5,10 @@
 #define INIT_WINDOW_WIDTH 600
 #define INIT_WINDOW_HEIGHT 900
 
-#ifdef _WIN32
-    #error win32 not supported yet sorry
-#else
+#if defined(_WIN32) || defined(__linux__)
     #include "backend/glfw_gl4.h"
+#else
+    #error unsupported platform sorry
 #endif
 
 struct window_state {
