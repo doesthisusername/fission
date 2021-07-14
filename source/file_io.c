@@ -1,12 +1,14 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
 #include <livesplit_core.h>
 #include "file_io.h"
 
 // not pretty, but reduces #ifdefs below
 #ifndef _WIN32
+    // for `close()`
+    #include <unistd.h>
+
     #define FD_T int
     #define INVALID_FD -1
 

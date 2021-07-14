@@ -1,13 +1,17 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <livesplit_core.h>
 #include "backend.h"
 #include "component.h"
 #include "file_io.h"
 #include "font.h"
 #include "types.h"
+
+#ifndef _WIN32
+    // for `chdir()`
+    #include <unistd.h>
+#endif
 
 static SharedTimer shared_timer = NULL;
 static Layout layout = NULL;

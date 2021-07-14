@@ -33,6 +33,6 @@ void load_fonts(struct nk_context* ctx, struct nk_vec2 dim) {
     nk_style_set_font(ctx, &fonts[FONT_NUM - 1]->handle);
 }
 
-inline void set_font(struct nk_context* ctx, enum font_sizes size) {
+void set_font(struct nk_context* ctx, enum font_sizes size) {
     nk_style_set_font(ctx, &fonts[size]->handle);
 }

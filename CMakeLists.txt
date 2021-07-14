@@ -41,8 +41,11 @@ add_executable(fission
     "${FIS_SRCS}/component/timer.c"
     "${FIS_SRCS}/component/title.c"
 
-    "${FIS_SRCS}/backend/glfw_gl4.c"
+    "${FIS_SRCS}/backend/glfw_gl4.c"'
 )
+
+# change to c_std_c11 for easy visual studio intellisense fix
+target_compile_features(fission PRIVATE c_restrict)
 
 # livesplit-core
 include(ExternalProject)
@@ -85,15 +88,13 @@ ExternalProject_Add(
     DOWNLOAD_COMMAND ""
     CONFIGURE_COMMAND ""
     BUILD_COMMAND   cargo run
-    COMMAND         mkdir -p "${CMAKE_BINARY_DIR}/${FIS_RUST}/h"
-    COMMAND         mv "${CMAKE_SOURCE_DIR}/${FIS_LIBS}/livesplit-core/capi/bindings/livesplit_core.h" "${CMAKE_BINARY_DIR}/${FIS_RUST}/h/livesplit_core.h"
     SOURCE_DIR      "${CMAKE_SOURCE_DIR}/${FIS_LIBS}/livesplit-core/capi/bind_gen"
     BUILD_IN_SOURCE ON
     INSTALL_COMMAND ""
     LOG_BUILD       ON
     DEPENDS         livesplit-core
     BUILD_BYPRODUCTS 
-        "${CMAKE_BINARY_DIR}/${FIS_RUST}/h/livesplit_core.h"
+        "${CMAKE_SOURCE_DIR}/${FIS_LIBS}/livesplit-core/capi/bindings/livesplit_core.h"
 )
 
 # dependencies
@@ -102,7 +103,7 @@ add_dependencies(fission livesplit_core-h livesplit-core)
 # fission config and link
 target_include_directories(fission PRIVATE
     "${CMAKE_SOURCE_DIR}/${FIS_LIBS}"
-    "${CMAKE_BINARY_DIR}/${FIS_RUST}/h"
+    "${CMAKE_SOURCE_DIR}/${FIS_LIBS}/livesplit-core/capi/bindings"
 )
 
 find_package(OpenGL REQUIRED)
@@ -112,6 +113,7 @@ target_link_libraries(fission
     glad glfw OpenGL::GL Threads::Threads
 )
 
+# TODO: narrow this down and use cmake builtin for dl
 if(UNIX)
     target_link_libraries(fission
         m dl
