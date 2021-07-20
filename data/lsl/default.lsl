@@ -130,6 +130,59 @@
                 "accuracy": "Tenths",
                 "show_possible_time_save": false
             }
+        },
+        {
+            "TotalPlaytime": {
+                "background": {
+                    "Vertical": [
+                        [
+                            1,
+                            1,
+                            1,
+                            0.06
+                        ],
+                        [
+                            1,
+                            1,
+                            1,
+                            0.005
+                        ]
+                    ]
+                },
+                "display_two_rows": false,
+                "show_days": true,
+                "label_color": null,
+                "value_color": null
+            }
+        },
+        {
+            "Text": {
+                "background": {
+                    "Vertical": [
+                        [
+                            1,
+                            1,
+                            1,
+                            0.06
+                        ],
+                        [
+                            1,
+                            1,
+                            1,
+                            0.005
+                        ]
+                    ]
+                },
+                "display_two_rows": false,
+                "left_center_color": null,
+                "right_color": null,
+                "text": {
+                    "Split": [
+                        "Lorem ipsum",
+                        "lol"
+                    ]
+                }
+            }
         }
     ],
     "general": {
