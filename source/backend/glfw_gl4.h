@@ -9,7 +9,6 @@
 #define NK_INCLUDE_VERTEX_BUFFER_OUTPUT
 #define NK_INCLUDE_FONT_BAKING
 #define NK_KEYSTATE_BASED_INPUT
-#define NK_GLFW_MAX_TEXTURES 2048
 #include <nk/nuklear.h>
 #include <nk/nuklear_glfw_gl4.h>
 #undef NK_IMPLEMENTATION

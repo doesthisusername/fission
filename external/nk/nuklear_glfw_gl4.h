@@ -307,6 +307,10 @@ NK_INTERN void
 nk_glfw3_device_upload_atlas(const void *image, int width, int height)
 {
     struct nk_glfw_device *dev = &glfw.ogl;
+    
+    if(dev->tex_ids[dev->font_tex_index] != 0) {
+        nk_glfw3_destroy_texture(dev->font_tex_index);
+    }
     dev->font_tex_index = nk_glfw3_create_texture(image, width, height);
 }
 

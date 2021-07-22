@@ -13,8 +13,8 @@
     #include <unistd.h>
 #endif
 
-static SharedTimer shared_timer = NULL;
-static Layout layout = NULL;
+static SharedTimer shared_timer;
+static Layout layout;
 static HotkeySystem hk_sys;
 static HotkeyConfig hk_cfg;
 
