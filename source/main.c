@@ -25,7 +25,7 @@ static HotkeyConfig hk_cfg;
 #endif
 
 s32 main(s32 argc, char** argv) {
-    // if SEP is '/' on windows, it won't find it, 
+    // if SEP is '/' on windows, `strrchr` won't find it, 
     // and the length calculation is likely to overflow,
     // causing the malloc to fail.
     // NOTE: '/' works for linux, even on ntfs filesystems.

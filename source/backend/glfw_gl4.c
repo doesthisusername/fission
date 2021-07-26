@@ -4,14 +4,19 @@
 #undef NK_IMPLEMENTATION
 #undef NK_GLFW_GL4_IMPLEMENTATION
 
-#include "../font.h"
 #include <stdio.h>
+#include "../font.h"
 
-GLFWwindow* window;
+#define MAX_VERTEX_BUFFER (512 * 1024)
+#define MAX_ELEMENT_BUFFER (512 * 1024)
+
+static GLFWwindow* window;
 
 static void glfw_error(s32 err, const char* desc) {
     fprintf(stderr, "glfw error %d: %s\n", err, desc);
 }
+
+static void resize_callback(GLFWwindow* cb_window, s32 width, s32 height);
 
 bool init_nk(struct nk_context** ctx) {
     // make window
@@ -45,7 +50,8 @@ bool init_nk(struct nk_context** ctx) {
     win_info.scale.y = (float)height;
     reload_fonts = true;
 
-    install_callbacks();
+    // callbacks
+    glfwSetWindowSizeCallback(window, resize_callback);
 
     return true;
 }
@@ -70,10 +76,6 @@ static void resize_callback(GLFWwindow* cb_window, s32 width, s32 height) {
     reload_fonts = true;
 }
 
-void install_callbacks() {
-    glfwSetWindowSizeCallback(window, resize_callback);
-}
-
 void start_frame() {
     glfwPollEvents();
     nk_glfw3_new_frame();
@@ -83,7 +85,10 @@ void end_frame() {
     glfwGetWindowSize(window, &win_info.width, &win_info.height);
     glViewport(0, 0, win_info.width, win_info.height);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // TODO: make background customizable
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+
     nk_glfw3_render(NK_ANTI_ALIASING_ON);
     glfwSwapBuffers(window);
 }
