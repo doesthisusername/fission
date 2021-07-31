@@ -2,7 +2,9 @@
 Hopefully performant, cross-platform LiveSplit One alternative.
 
 ## Status
-Early. Standard `CMake` procedure should just work (after cloning with `--recursive`). Only renders two components at the moment, and is not usable for actual runs.
+Early. Standard `CMake` procedure should just work (after cloning with `--recursive`).
+
+Only renders a few components at the moment, layouting is barely adhered to, and file paths are hardcoded. Thus, it's not usable for actual runs, yet.
 
 Builds on Linux, both native and to Windows with `mingw`, and builds natively on Windows, even with MSVC (please stay that way). Mac status is unknown.
 
@@ -24,4 +26,4 @@ Builds on Linux, both native and to Windows with `mingw`, and builds natively on
 - The `data` folder is hopefully temporary, but I don't know what to replace it with.
 
 ## License
-Probably MIT. Dependency licenses are in `data/license`, I hope I did that correctly.
+Probably MIT. Dependency licenses are in `data/license` -- please let me know if those are missing anything.

@@ -54,6 +54,9 @@ s32 main(s32 argc, char** argv) {
         return 1;
     }
     
+    // scrollbars appear otherwise
+    ctx->style.window.spacing = (struct nk_vec2){0, 0};
+    
     // init livesplit-core (splits and timer)
     shared_timer = load_splits("data/lss/default.lss");
     if(shared_timer == NULL) {

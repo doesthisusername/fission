@@ -13,5 +13,6 @@ void draw(struct nk_context* ctx, LayoutStateRef state, size_t index) {
     CHECK_AND_DRAW("Timer", timer);
     CHECK_AND_DRAW("Title", title);
     CHECK_AND_DRAW("KeyValue", key_value);
+    CHECK_AND_DRAW("Splits", splits);
 }
 #undef CHECK_AND_DRAW
