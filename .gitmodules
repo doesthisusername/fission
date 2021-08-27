@@ -1,6 +1,7 @@
 [submodule "external/livesplit-core"]
 	path = external/livesplit-core
-	url = https://github.com/LiveSplit/livesplit-core
+	url = https://github.com/doesthisusername/livesplit-core
+	branch = "waiting-room"
 [submodule "external/glfw"]
 	path = external/glfw
 	url = https://github.com/glfw/glfw

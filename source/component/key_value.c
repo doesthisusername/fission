@@ -17,8 +17,8 @@ void draw_key_value(struct nk_context* ctx, KeyValueComponentStateRef state) {
     nk_layout_row_begin(ctx, NK_DYNAMIC, TEXT_HEIGHT, 2);
     {
         nk_layout_row_push(ctx, 0.5f);
-        nk_label(ctx, key.text, KEY_ALIGN);
-        nk_label(ctx, val.text, VALUE_ALIGN);
+        nk_label_colored(ctx, key.text, KEY_ALIGN, nk_rgba_u32(KeyValueComponentState_key_color_or_default(state, general_settings)));
+        nk_label_colored(ctx, val.text, VALUE_ALIGN, nk_rgba_u32(KeyValueComponentState_value_color_or_default(state, general_settings)));
     }
     nk_layout_row_end(ctx);
 }

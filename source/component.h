@@ -3,6 +3,8 @@
 #include "backend.h"
 #include <livesplit_core.h>
 
+extern GeneralLayoutSettingsRef general_settings;
+
 /// Draw the `index`th element of the `state`.
 void draw(struct nk_context* ctx, LayoutStateRef state, size_t index);
 

@@ -1,6 +1,8 @@
 #include "component.h"
 #include <string.h>
 
+GeneralLayoutSettingsRef general_settings;
+
 #define CHECK_AND_DRAW(name, ident) \
     if(strcmp(name, type) == 0) { \
         draw_##ident(ctx, LayoutState_component_as_##ident(state, index)); \

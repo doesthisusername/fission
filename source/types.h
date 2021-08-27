@@ -17,7 +17,7 @@ typedef int64_t s64;
 typedef float f32;
 typedef double f64;
 #else
-    #error please wait for support for more than linux and win32
+    #error please wait for support for more than linux and win32 (or add it)
 #endif
 
 #endif // FIS_TYPES_H

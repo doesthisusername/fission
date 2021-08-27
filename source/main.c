@@ -74,6 +74,7 @@ s32 main(s32 argc, char** argv) {
         fprintf(stderr, "failed to load layout\n");
         return 1;
     }
+    general_settings = Layout_general_settings(layout);
     LayoutState lstate = LayoutState_new();
 
     // main loop

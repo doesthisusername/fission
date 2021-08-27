@@ -16,7 +16,9 @@ void draw_timer(struct nk_context* ctx, TimerComponentStateRef state) {
     nk_layout_row_begin(ctx, NK_DYNAMIC, TIMER_HEIGHT, 1);
     {
         nk_layout_row_push(ctx, 1.0f);
-        nk_labelf(ctx, TIMER_ALIGN, "%s%s", secs.text, frac.text);
+        const struct nk_color color = nk_rgba_u32(TimerComponentState_color(state));
+
+        nk_labelf_colored(ctx, TIMER_ALIGN, color, "%s%s", secs.text, frac.text);
     }
     nk_layout_row_end(ctx);
 }

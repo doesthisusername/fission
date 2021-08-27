@@ -20,21 +20,22 @@ struct attempt_counter_info {
 };
 
 // assumes at least one of info->show_attempts and info->show_finished are true
-static void draw_attempts(struct nk_context* ctx, const struct attempt_counter_info* info) {
+static void draw_attempts(struct nk_context* ctx, const struct attempt_counter_info* info, struct nk_color color) {
     const bool show_both = info->show_attempts && info->show_finished;
 
     if(show_both) {
-        nk_labelf(ctx, ATTEMPT_COUNTER_ALIGN, "%u/%u", info->attempts, info->finished);
+        nk_labelf_colored(ctx, ATTEMPT_COUNTER_ALIGN, color, "%u/%u", info->attempts, info->finished);
     }
     else {
         const u32 number = info->show_attempts ? info->attempts : info->finished;
-        nk_labelf(ctx, ATTEMPT_COUNTER_ALIGN, "%u", number);
+        nk_labelf_colored(ctx, ATTEMPT_COUNTER_ALIGN, color, "%u", number);
     }
 }
 
 void draw_title(struct nk_context* ctx, TitleComponentStateRef state) {
     const char* line2 = TitleComponentState_line2(state);
     const bool is_single_line = line2 == NULL;
+    const struct nk_color color = nk_rgba_u32(TitleComponentState_text_color_or_default(state, general_settings));
 
     struct attempt_counter_info ac_info = {
         .show_attempts = TitleComponentState_shows_attempts(state),
@@ -62,27 +63,25 @@ void draw_title(struct nk_context* ctx, TitleComponentStateRef state) {
 
     set_font(ctx, FONT_S);
 
-    //nk_layout_row_dynamic(ctx, TITLE_HEIGHT, cols);
     nk_layout_row_begin(ctx, NK_DYNAMIC, TITLE_HEIGHT, cols);
     {
         nk_layout_row_push(ctx, ratio[0]);
-        nk_label(ctx, lines[0].text, TITLE_ALIGN);
+        nk_label_colored(ctx, lines[0].text, TITLE_ALIGN, color);
         if(is_single_line && cols > 1) {
             nk_layout_row_push(ctx, ratio[1]);
-            draw_attempts(ctx, &ac_info);
+            draw_attempts(ctx, &ac_info, color);
         }
     }
     nk_layout_row_end(ctx);
 
     if(!is_single_line) {
-        //nk_layout_row_dynamic(ctx, TITLE_HEIGHT, cols);
         nk_layout_row_begin(ctx, NK_DYNAMIC, TITLE_HEIGHT, cols);
         {
             nk_layout_row_push(ctx, ratio[0]);
-            nk_label(ctx, lines[1].text, TITLE_ALIGN);
+            nk_label_colored(ctx, lines[1].text, TITLE_ALIGN, color);
             if(cols > 1) {
                 nk_layout_row_push(ctx, ratio[1]);
-                draw_attempts(ctx, &ac_info);
+                draw_attempts(ctx, &ac_info, color);
             }
         }
         nk_layout_row_end(ctx);
