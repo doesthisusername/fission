@@ -39,9 +39,10 @@ add_executable(fission
     "${FIS_SRCS}/backend.c"
 
     "${FIS_SRCS}/component/key_value.c"
+    "${FIS_SRCS}/component/splits.c"
+    "${FIS_SRCS}/component/text.c"
     "${FIS_SRCS}/component/timer.c"
     "${FIS_SRCS}/component/title.c"
-    "${FIS_SRCS}/component/splits.c"
 
     "${FIS_SRCS}/backend/glfw_gl4.c"
 )
