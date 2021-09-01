@@ -86,8 +86,7 @@ void end_frame() {
     glViewport(0, 0, win_info.width, win_info.height);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // TODO: make background customizable
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     nk_glfw3_render(NK_ANTI_ALIASING_ON);
     glfwSwapBuffers(window);
