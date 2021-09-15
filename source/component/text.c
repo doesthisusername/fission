@@ -26,6 +26,8 @@ void draw_text(struct nk_context* ctx, TextComponentStateRef state) {
     else {
         nk_layout_row_begin(ctx, NK_DYNAMIC, TEXT_HEIGHT, 1);
         {
+            nk_layout_row_push(ctx, 1.0f);
+            
             const struct nk_color center_color = nk_rgba_u32(TextComponentState_left_center_color_or_default(state, general_settings));
             nk_label_colored(ctx, TextComponentState_center(state), CENTER_ALIGN, center_color);
         }
