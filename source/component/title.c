@@ -5,7 +5,6 @@
 
 #define ATTEMPT_COUNTER_ALIGN NK_TEXT_RIGHT
 #define TITLE_ALIGN NK_TEXT_LEFT
-#define TITLE_HEIGHT 60.0f
 
 static struct text_buf lines[] = {
     {.text = NULL, .max = 0},
@@ -61,9 +60,7 @@ void draw_title(struct nk_context* ctx, TitleComponentStateRef state) {
 
     buf_set(&lines[0], TitleComponentState_line1(state));
 
-    set_font(ctx, FONT_S);
-
-    nk_layout_row_begin(ctx, NK_DYNAMIC, TITLE_HEIGHT, cols);
+    nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, cols);
     {
         nk_layout_row_push(ctx, ratio[0]);
         nk_label_colored(ctx, lines[0].text, TITLE_ALIGN, color);
@@ -75,7 +72,7 @@ void draw_title(struct nk_context* ctx, TitleComponentStateRef state) {
     nk_layout_row_end(ctx);
 
     if(!is_single_line) {
-        nk_layout_row_begin(ctx, NK_DYNAMIC, TITLE_HEIGHT, cols);
+        nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, cols);
         {
             nk_layout_row_push(ctx, ratio[0]);
             nk_label_colored(ctx, lines[1].text, TITLE_ALIGN, color);

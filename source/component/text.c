@@ -1,17 +1,14 @@
 #include "../component.h"
 #include "../font.h"
 
-#define TEXT_HEIGHT 60.0f
 #define LEFT_ALIGN NK_TEXT_LEFT
 #define RIGHT_ALIGN NK_TEXT_RIGHT
 #define CENTER_ALIGN NK_TEXT_CENTERED
 
 void draw_text(struct nk_context* ctx, TextComponentStateRef state) {
-    set_font(ctx, FONT_M);
-
     const bool is_split = TextComponentState_is_split(state);
     if(is_split) {
-        nk_layout_row_begin(ctx, NK_DYNAMIC, TEXT_HEIGHT, 2);
+        nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, 2);
         {
             nk_layout_row_push(ctx, 0.5f);
 
@@ -24,7 +21,7 @@ void draw_text(struct nk_context* ctx, TextComponentStateRef state) {
         nk_layout_row_end(ctx);
     }
     else {
-        nk_layout_row_begin(ctx, NK_DYNAMIC, TEXT_HEIGHT, 1);
+        nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, 1);
         {
             nk_layout_row_push(ctx, 1.0f);
             

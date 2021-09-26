@@ -56,6 +56,7 @@ s32 main(s32 argc, char** argv) {
     
     // scrollbars appear otherwise
     ctx->style.window.spacing = (struct nk_vec2){0, 0};
+    ctx->style.window.padding.y = 0;
     
     // init livesplit-core (splits and timer)
     shared_timer = load_splits("data/lss/default.lss");
@@ -91,9 +92,23 @@ s32 main(s32 argc, char** argv) {
             Layout_update_state(layout, lstate, timer);
             TimerWriteLock_drop(wlock);
 
+            const size_t old_row_count = render_state.row_count;
+            render_state.row_count = 0;
+
             const size_t elem_n = LayoutState_len(lstate);
             for(size_t i = 0; i < elem_n; i++) {
                 draw(ctx, lstate, i);
+            }
+
+            // the idea here is if the row count changes (including at startup),
+            // then we want to resize the window to contents, without changing row height.
+            // on the other hand, if the window is resized manually, then change the row height to compensate,
+            // also changing the size of the elements. that part's handled by the resize handler in the backend.
+            if(old_row_count == 0 || render_state.row_count != old_row_count) {
+                const float contents_height = ctx->active->layout->at_y + ctx->active->layout->row.height;
+                win_info.height = (win_info.height / win_info.scale.y) * contents_height + WINDOW_PADDING;
+
+                resize_window(&win_info);
             }
         }
         nk_end(ctx);

@@ -3,6 +3,10 @@
 #include "backend.h"
 #include <livesplit_core.h>
 
+// not ideal, but forgetting this isn't good either.
+// best case is probably if there's a way to get the number of drawn rows from nuklear itself.
+#define nk_layout_row_end(ctx) nk_layout_row_end(ctx); render_state.row_count++
+
 extern GeneralLayoutSettingsRef general_settings;
 
 /// Draw the `index`th element of the `state`.

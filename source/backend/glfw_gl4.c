@@ -65,7 +65,16 @@ bool still_running() {
     return !glfwWindowShouldClose(window);
 }
 
+void resize_window(const struct window_state* state) {
+    glfwSetWindowSize(window, state->width, state->height);
+}
+
 static void resize_callback(GLFWwindow* cb_window, s32 width, s32 height) {
+    // resized to the same size
+    if(win_info.width == width && win_info.height == height) {
+        return;
+    }
+
     win_info.width = width;
     win_info.height = height;
 
@@ -73,6 +82,7 @@ static void resize_callback(GLFWwindow* cb_window, s32 width, s32 height) {
     win_info.scale.x = (float)width;
     win_info.scale.y = (float)height;
 
+    render_state.row_height = (win_info.scale.y - WINDOW_PADDING - render_state.timer_height_offset) / render_state.row_count;
     reload_fonts = true;
 }
 

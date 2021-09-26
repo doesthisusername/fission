@@ -4,15 +4,9 @@
 #include <stdbool.h>
 #include "backend.h"
 
-#define FONT_S_SCALE 0.5f
-#define FONT_M_SCALE 0.7f
-#define FONT_L_SCALE 1.0f
-#define FONT_SCALE(x) ((float[FONT_NUM]){FONT_S_SCALE, FONT_M_SCALE, FONT_L_SCALE}[x])
-
 enum font_sizes {
-    FONT_S,
-    FONT_M,
-    FONT_L,
+    FONT_NORMAL,
+    FONT_TIMER,
     FONT_NUM,
 };
 

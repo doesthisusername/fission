@@ -5,6 +5,7 @@
 
 #define INIT_WINDOW_WIDTH 600
 #define INIT_WINDOW_HEIGHT 900
+#define WINDOW_PADDING 10 // need to verify that this is the right thing to do
 
 // only backend we have right now, so...
 #if defined(_WIN32) || defined(__linux__)
@@ -26,6 +27,20 @@
     #error unsupported platform sorry
 #endif
 
+struct window_state {
+    s32 width;
+    s32 height;
+    struct nk_vec2 scale;
+};
+extern struct window_state win_info;
+
+struct render_state {
+    size_t row_count;
+    float row_height;
+    float timer_height_offset; // Timer components can have different row heights
+};
+extern struct render_state render_state;
+
 /// `ctx` will hold an initialized `nk_context*` on success.
 /// Returns true on success.
 bool init_nk(struct nk_context** ctx);
@@ -33,20 +48,17 @@ bool init_nk(struct nk_context** ctx);
 /// Shut down GUI libraries, intended for use on application exit.
 void shutdown_nk();
 
-/// Returns whether the `glfw` window has been told to close.
+/// Returns false if the window has been told to close.
 bool still_running();
+
+/// Resize the window to the size specified in the `state`.
+/// Intended for use when (re)loading splits and layout.
+void resize_window(const struct window_state* state);
 
 /// Should be called at the start of every frame in the main loop.
 void start_frame();
 
 /// Should be called at the end of every frame in the main loop.
 void end_frame();
-
-struct window_state {
-    s32 width;
-    s32 height;
-    struct nk_vec2 scale;
-};
-extern struct window_state win_info;
 
 #endif // FIS_BACKEND_H

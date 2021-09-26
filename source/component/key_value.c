@@ -1,13 +1,11 @@
 #include "../component.h"
 #include "../font.h"
 
-#define TEXT_HEIGHT 60.0f
 #define KEY_ALIGN NK_TEXT_LEFT
 #define VALUE_ALIGN NK_TEXT_RIGHT
 
 void draw_key_value(struct nk_context* ctx, KeyValueComponentStateRef state) {
-    set_font(ctx, FONT_M);
-    nk_layout_row_begin(ctx, NK_DYNAMIC, TEXT_HEIGHT, 2);
+    nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, 2);
     {
         nk_layout_row_push(ctx, 0.5f);
 
