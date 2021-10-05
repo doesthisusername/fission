@@ -1,6 +1,6 @@
 #include "../component.h"
-#include "../text_buf.h"
 #include "../font.h"
+#include "../text_buf.h"
 #include "../types.h"
 
 #define ATTEMPT_COUNTER_ALIGN NK_TEXT_RIGHT
@@ -23,7 +23,7 @@ static void draw_attempts(struct nk_context* ctx, const struct attempt_counter_i
     const bool show_both = info->show_attempts && info->show_finished;
 
     if(show_both) {
-        nk_labelf_colored(ctx, ATTEMPT_COUNTER_ALIGN, color, "%u/%u", info->attempts, info->finished);
+        nk_labelf_colored(ctx, ATTEMPT_COUNTER_ALIGN, color, "%u/%u", info->finished, info->attempts);
     }
     else {
         const u32 number = info->show_attempts ? info->attempts : info->finished;

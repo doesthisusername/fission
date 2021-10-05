@@ -1,6 +1,6 @@
 #include "../component.h"
-#include "../text_buf.h"
 #include "../font.h"
+#include "../text_buf.h"
 
 #define NAME_ALIGN NK_TEXT_LEFT
 #define VALUE_ALIGN NK_TEXT_RIGHT

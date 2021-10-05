@@ -72,6 +72,10 @@
                         ]
                     ]
                 },
+                "split_time_accuracy": "Hundredths",
+                "segment_time_accuracy": "Hundredths",
+                "delta_time_accuracy": "Hundredths",
+                "delta_drop_decimals": true,
                 "show_column_labels": false,
                 "columns": [
                     {

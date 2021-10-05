@@ -12,6 +12,7 @@ GeneralLayoutSettingsRef general_settings;
 void draw(struct nk_context* ctx, LayoutStateRef state, size_t index) {
     const char* type = LayoutState_component_type(state, index);
 
+    CHECK_AND_DRAW("DetailedTimer", detailed_timer);
     CHECK_AND_DRAW("KeyValue", key_value);
     CHECK_AND_DRAW("Splits", splits);
     CHECK_AND_DRAW("Text", text);

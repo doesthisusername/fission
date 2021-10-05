@@ -34,7 +34,7 @@ bool init_nk(struct nk_context** ctx) {
 #endif
     window = glfwCreateWindow(win_info.width, win_info.height, "fission", NULL, NULL);
     glfwMakeContextCurrent(window);
-    
+
     // make gl
     gladLoaderLoadGL();
     glViewport(0, 0, win_info.width, win_info.height);

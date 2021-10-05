@@ -1,10 +1,10 @@
 # fission
-Hopefully performant, cross-platform LiveSplit One alternative.
+Hopefully performant, cross-platform speedrun timer built with [livesplit-core](https://github.com/LiveSplit/livesplit-core). Name might change but it works for now.
 
 ## Status
-Early. Standard `CMake` procedure should just work (after cloning with `--recursive`).
+Quite early. Might be able to use for runs, but you'll be on your own. Standard `CMake` procedure should just work (after cloning with `--recursive`).
 
-Only renders a few components at the moment, layouting is barely adhered to, and file paths are hardcoded. Thus, it's not usable for actual runs, yet.
+Supports just about the most essential components, layouting isn't adhered to much outside of text color, and file paths are hardcoded.
 
 Builds on Linux, both native and to Windows with `mingw`, and builds natively on Windows, even with MSVC (please stay that way). Mac status is unknown.
 
@@ -16,14 +16,16 @@ Builds on Linux, both native and to Windows with `mingw`, and builds natively on
 
 ### Cross-compilation
 - Target added in `rustup`.
-- `set(CARGO_TARGET <rust triple for target>)` in the toolchain file for passing along to `livesplit-core`.
+- `set(CARGO_TARGET <rust triple for target>)` in your CMake toolchain file for passing along to `livesplit-core`.
 
 ## Build Notes
-- Red squigglies in `livesplit_core.h` in Visual Studio are due to it lacking a C99 standard option. Change to C11 in `fission`'s project settings to make them go away. C99 still builds fine: this is for squigglies in the IDE.
 - Visual Studio adds a `Debug`/`Release` folder in the output, which breaks the placement of `data`. I'll look at fixing this, but in the meantime you can copy `fission.exe` into `bin`.
 - `glfw` is built as a submodule and statically linked instead of linking to the system library, as I was having issues with `mingw`. Static linking also made application startup a lot faster, for whatever reason.
-- If it looks like `glfw` is taking a while to build, it's actually `livesplit-core` blocking it.
+- If it looks like `glfw` is taking a while to build, it's actually `livesplit-core` blocking it (`livesplit-core` is fairly big).
 - The `data` folder is hopefully temporary, but I don't know what to replace it with.
 
 ## License
 Probably MIT. Dependency licenses are in `data/license` -- please let me know if those are missing anything.
+
+## Bugs
+For some reason, it uses an entire CPU core on Windows. On Linux (my main dev platform), it only uses about 2% at 165Hz.
