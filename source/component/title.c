@@ -60,6 +60,7 @@ void draw_title(struct nk_context* ctx, TitleComponentStateRef state) {
 
     buf_set(&lines[0], TitleComponentState_line1(state));
 
+    set_font(ctx, FONT_TEXT);
     nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, cols);
     {
         nk_layout_row_push(ctx, ratio[0]);

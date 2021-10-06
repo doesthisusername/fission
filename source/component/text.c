@@ -6,6 +6,8 @@
 #define CENTER_ALIGN NK_TEXT_CENTERED
 
 void draw_text(struct nk_context* ctx, TextComponentStateRef state) {
+    set_font(ctx, FONT_TEXT);
+
     const bool is_split = TextComponentState_is_split(state);
     if(is_split) {
         nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, 2);

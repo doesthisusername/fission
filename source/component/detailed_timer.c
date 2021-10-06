@@ -19,7 +19,11 @@ static void draw_row(struct nk_context* ctx, bool left_visible, struct nk_color 
         nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, 2);
         {
             nk_layout_row_push(ctx, 0.5f);
+
+            set_font(ctx, FONT_TEXT);
             nk_labelf_colored(ctx, LEFT_ALIGN, text_color, "%s: %s", name.text, time.text);
+
+            set_font(ctx, FONT_TIME);
             nk_labelf_colored(ctx, TIMER_ALIGN, right_color, "%s%s", secs.text, frac.text);
         }
         nk_layout_row_end(ctx);
@@ -28,6 +32,8 @@ static void draw_row(struct nk_context* ctx, bool left_visible, struct nk_color 
         nk_layout_row_begin(ctx, NK_DYNAMIC, render_state.row_height, 1);
         {
             nk_layout_row_push(ctx, 1.0f);
+
+            set_font(ctx, FONT_TIME);
             nk_labelf_colored(ctx, TIMER_ALIGN, right_color, "%s%s", secs.text, frac.text);
         }
         nk_layout_row_end(ctx);

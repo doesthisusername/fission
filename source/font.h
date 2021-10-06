@@ -5,8 +5,8 @@
 #include "backend.h"
 
 enum font_sizes {
-    FONT_NORMAL,
-    FONT_TIMER,
+    FONT_TEXT,
+    FONT_TIME,
     FONT_NUM,
 };
 

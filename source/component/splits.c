@@ -18,9 +18,12 @@ void draw_splits(struct nk_context* ctx, SplitsComponentStateRef state) {
             if(col_n > 0) {
                 nk_layout_row_push(ctx, ratio);
 
+                set_font(ctx, FONT_TEXT);
                 const struct nk_color text_color = nk_rgba_u32(GeneralLayoutSettings_text_color(general_settings));
                 nk_label_colored(ctx, SplitsComponentState_name(state, i), NAME_ALIGN, text_color);
 
+                set_font(ctx, FONT_TIME);
+                
                 // column values are given right-to-left,
                 // so iterate in reverse to make it left-to-right.
                 // continuation condition works because of unsigned overflow.
