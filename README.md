@@ -1,6 +1,11 @@
 # fission
 Hopefully performant, cross-platform speedrun timer built with [livesplit-core](https://github.com/LiveSplit/livesplit-core). Name might change but it works for now.
 
+# This Branch
+Personal branch with a hardcoded AHiT autosplitter, until proper autosplitting is merged into `livesplit-core` (it's going to work a lot better than I could've made it for this).
+
+You can use it for a reference if you'd like I suppose, it's not commented much, but I tried doing the out-of-process memory I/O somewhat properly.
+
 ## Status
 Quite early. Might be able to use for runs, but you'll be on your own. Standard `CMake` procedure should just work (after cloning with `--recursive`).
 

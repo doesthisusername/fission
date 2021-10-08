@@ -8,6 +8,9 @@
 #include "font.h"
 #include "types.h"
 
+#include "ahit_autosplitter.h"
+#include <pthread.h>
+
 #ifndef _WIN32
     // for `chdir()`
     #include <unistd.h>
@@ -78,6 +81,9 @@ s32 main(s32 argc, char** argv) {
     general_settings = Layout_general_settings(layout);
     LayoutState lstate = LayoutState_new();
 
+    pthread_t tid;
+    pthread_create(&tid, NULL, (void*(*)(void*))run, SharedTimer_share(shared_timer));
+
     // main loop
     while(still_running()) {
         start_frame();
@@ -123,6 +129,8 @@ s32 main(s32 argc, char** argv) {
 
         end_frame();
     }
+
+    pthread_join(tid, NULL);
 
     // save
     if(!save_layout(layout, "data/lsl/default.lsl")) {
