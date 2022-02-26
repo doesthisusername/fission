@@ -48,7 +48,7 @@ struct __attribute__((packed)) hat_timer {
     double act_time;
     double real_game_time;
     double real_act_time;
-    u32 timepiece_count;
+    s32 timepiece_count;
     char end_magic[4];
 };
 
@@ -177,7 +177,7 @@ static bool is_running() {
 }
 
 static bool should_start() {
-    return current.timer.state == 1 && old.timer.state == 0 && current.timer.timepiece_count <= 1; 
+    return current.timer.state == 1 && old.timer.state == 0 && current.timer.timepiece_count < 40; 
 }
 
 static bool should_split() {

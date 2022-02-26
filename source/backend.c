@@ -7,6 +7,6 @@ struct window_state win_info = {
 
 struct render_state render_state = {
     .row_count = 0,
-    .row_height = 60.0f,
+    .row_height = INIT_ROW_HEIGHT,
     .timer_height_offset = 0.0f,
 };

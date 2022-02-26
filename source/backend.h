@@ -3,8 +3,9 @@
 #include <stdbool.h>
 #include "types.h"
 
-#define INIT_WINDOW_WIDTH 600
-#define INIT_WINDOW_HEIGHT 900
+#define INIT_WINDOW_WIDTH 555
+#define INIT_WINDOW_HEIGHT 679
+#define INIT_ROW_HEIGHT 44.6
 #define WINDOW_PADDING 10 // need to verify that this is the right thing to do
 
 // only backend we have right now, so...

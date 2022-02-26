@@ -83,6 +83,7 @@ static void resize_callback(GLFWwindow* cb_window, s32 width, s32 height) {
     win_info.scale.y = (float)height;
 
     render_state.row_height = (win_info.scale.y - WINDOW_PADDING - render_state.timer_height_offset) / render_state.row_count;
+    printf("set row height to %f and window height to %f\n", render_state.row_height, win_info.scale.y);
     reload_fonts = true;
 }
 
