@@ -18,6 +18,8 @@
 #define PROCFS_DIR "/proc"
 #define INVALID_PID -1
 
+#define IL_SPLIT 0
+
 enum perms {
     READ = 1,
     WRITE = 2,
@@ -138,8 +140,14 @@ void run(SharedTimer shared_timer) {
         if(update_state) {
             WLOCK_START(shared_timer);
             
-            if((update_state & RUNNING) && current.timer.real_game_time != old.timer.real_game_time) {
-                TimeSpan time = TimeSpan_from_seconds(current.timer.real_game_time);
+#if IL_SPLIT
+#define timer_to_read real_act_time
+#else
+#define timer_to_read real_game_time
+#endif
+
+            if((update_state & RUNNING) && current.timer.timer_to_read != old.timer.timer_to_read) {
+                TimeSpan time = TimeSpan_from_seconds(current.timer.timer_to_read);
                 Timer_set_game_time(timer, time);
                 TimeSpan_drop(time);
             }
@@ -177,18 +185,30 @@ static bool is_running() {
 }
 
 static bool should_start() {
-    return current.timer.state == 1 && old.timer.state == 0 && current.timer.timepiece_count < 40; 
+#if IL_SPLIT
+    return current.timer.act_timer_visible && current.timer.real_act_time > 0.0f && old.timer.real_act_time == 0.0f;
+#else
+    return current.timer.state == 1 && old.timer.state == 0 && current.timer.timepiece_count < 40;
+#endif
 }
 
 static bool should_split() {
+#if IL_SPLIT
+    return current.timer.just_got_timepiece;
+#else
     return 
         (current.timer.state == 1 && current.timer.timepiece_count == old.timer.timepiece_count + 1) ||
         (current.timer.state == 2 && old.timer.state == 1)
     ;
+#endif
 }
 
 static bool should_reset() {
+#if IL_SPLIT
+    return current.timer.act_timer_paused && current.timer.act_timer_visible && current.timer.real_act_time == 0.0f && old.timer.real_act_time > 0.0f;
+#else
     return current.timer.state == 0 && old.timer.state == 1;
+#endif
 }
 
 static bool init(const struct map* maps, size_t map_n) {
