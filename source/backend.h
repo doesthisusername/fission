@@ -24,7 +24,7 @@
     #define nk_font_stash_begin nk_glfw3_font_stash_begin
     #define nk_font_stash_end nk_glfw3_font_stash_end
 #else
-    #error unsupported platform sorry
+    #error unsupported platform, sorry. you can try removing this, but youll be on your own
 #endif
 
 struct window_state {

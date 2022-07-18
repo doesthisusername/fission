@@ -85,6 +85,14 @@ s32 main(s32 argc, char** argv) {
             load_fonts(ctx, win_info.scale);
         }
 
+        // scrolling the view
+        if(ctx->input.mouse.scroll_delta.y < 0.0f) {
+            Layout_scroll_down(layout);
+        }
+        else if(ctx->input.mouse.scroll_delta.y > 0.0f) {
+            Layout_scroll_up(layout);
+        }
+
         if(nk_begin(ctx, "fission", nk_rect(0, 0, win_info.width, win_info.height), 0)) {
             TimerWriteLock wlock = SharedTimer_write(shared_timer);
             TimerRefMut timer = TimerWriteLock_timer(wlock);
