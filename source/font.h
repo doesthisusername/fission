@@ -7,6 +7,7 @@
 enum font_sizes {
     FONT_TEXT,
     FONT_TIME,
+    FONT_SPLIT_NAME,
     FONT_NUM,
 };
 

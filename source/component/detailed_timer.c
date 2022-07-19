@@ -66,4 +66,6 @@ void draw_detailed_timer(struct nk_context* ctx, DetailedTimerComponentStateRef 
     DRAW_ROW(1, segment_timer, comparison2);
 
 #undef DRAW_ROW
+
+    set_font(ctx, FONT_TEXT);
 }

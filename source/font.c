@@ -4,13 +4,17 @@
 bool reload_fonts = false;
 struct nk_font* fonts[FONT_NUM];
 
+const char* paths[] = {
+    "data/font/TitilliumWeb-Regular.ttf",
+    "data/font/TitilliumWeb-SemiBold.ttf",
+    "data/font/TitilliumWeb-Light.ttf",
+};
+
 // TODO: unhardcode, and add proper fallbacks for dashes and minus
 // TODO: add mechanism for loading needed glyphs, especially for non-ASCII split names
-#define FONT_PATH_TEXT "data/font/TitilliumWeb-Regular.ttf"
-#define FONT_PATH_TIME "data/font/TitilliumWeb-SemiBold.ttf"
 void load_fonts(struct nk_context* ctx, struct nk_vec2 dim) {
     // ASCII, en and em dashes, and mathematical minus
-    static const nk_rune range[] = {0x20, 0xFF, 0x2013, 0x2014, 0x2212, 0x2212, 0};
+    static const nk_rune range[] = {0x20, 0xFF, 0x2013, 0x2014, 0x2212, 0x2212, 0, 0};
     static struct nk_font_atlas* atlas = NULL;
 
     // avoid memory leak
@@ -25,13 +29,7 @@ void load_fonts(struct nk_context* ctx, struct nk_vec2 dim) {
         struct nk_font_config cfg = nk_font_config(height);
         cfg.range = range;
 
-        const char* path;
-        switch(i) {
-            case FONT_TEXT: path = FONT_PATH_TEXT; break;
-            case FONT_TIME: path = FONT_PATH_TIME; break;
-        }
-
-        fonts[i] = nk_font_atlas_add_from_file(atlas, path, height, &cfg);
+        fonts[i] = nk_font_atlas_add_from_file(atlas, paths[i], height, &cfg);
     }
     nk_font_stash_end();
 

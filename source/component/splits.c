@@ -18,7 +18,7 @@ void draw_splits(struct nk_context* ctx, SplitsComponentStateRef state) {
             if(col_n > 0) {
                 nk_layout_row_push(ctx, ratio);
 
-                set_font(ctx, FONT_TEXT);
+                set_font(ctx, FONT_SPLIT_NAME);
                 const struct nk_color text_color = nk_rgba_u32(GeneralLayoutSettings_text_color(general_settings));
                 nk_label_colored(ctx, SplitsComponentState_name(state, i), NAME_ALIGN, text_color);
 
@@ -38,4 +38,6 @@ void draw_splits(struct nk_context* ctx, SplitsComponentStateRef state) {
         }
         nk_layout_row_end(ctx);
     }
+
+    set_font(ctx, FONT_TEXT);
 }
